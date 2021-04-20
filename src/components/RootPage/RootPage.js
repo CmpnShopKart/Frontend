@@ -15,7 +15,6 @@ const RootPage = ({fetchUsers,user}) => {
             await fetchUsers();
         }
         getData();
-        console.log(user);
     },[fetchUsers]);
 
     if(user.isLoading){
