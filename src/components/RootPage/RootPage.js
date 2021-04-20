@@ -1,9 +1,30 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 import './RootPage.scss';
+import SignUpModal from '../SignUpModal/SignUpModal';
+import {connect} from 'react-redux';
+import fetchUsers from '../../redux/user/user.actions';
 
-const RootPage = () => {
+const RootPage = ({fetchUsers,user}) => {
+
     const [isBuyersSelected,setIsBuyersSelected] = useState(true);
+    const [showSignUpModal,setShowSignUpModal] = useState(false);
+
+    useEffect(() => {
+        const getData = async() => {
+            await fetchUsers();
+        }
+        getData();
+        console.log(user);
+    },[fetchUsers]);
+
+    if(user.isLoading){
+        return(
+            <div>
+                <h1>Loading</h1>
+            </div>
+        )
+    }
     return(
         <div className='root-page-container'>
             <div className='root-page-container__text-container'>
@@ -33,14 +54,34 @@ const RootPage = () => {
                 </div>
                 <div className='root-page-container__tabbed-pane-container__form-container'>
                     <form>
-                        <input type='email' placeholder='Enter Your E-mail'></input>
+                        <input type='email' placeholder={`${isBuyersSelected?'Enter Your E-mail':'Enter your phone no.'}`}></input>
                         <input type='password' placeholder='Enter Your Password'></input>
                         <button type='submit'>Sign In</button>
                     </form>
                 </div>
+                <a
+                    onClick={(e) => setShowSignUpModal(true)}
+                >
+                    Don't have an account ? Create one
+                </a>
             </div>
+            {(showSignUpModal===true)?
+                <SignUpModal
+                    isBuyersSelected={isBuyersSelected}
+                    closeModal={(e) => setShowSignUpModal(false)}
+                />
+                :null
+            }
         </div>
     )
 }
 
-export default RootPage;
+const mapStateToProps = state => ({
+    user:state.user
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchUsers : () => dispatch(fetchUsers())
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(RootPage);

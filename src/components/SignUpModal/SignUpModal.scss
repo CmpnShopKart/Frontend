@@ -1,0 +1,68 @@
+.sign-up-modal-container{
+    position: fixed;
+    z-index: 9999;
+    background: rgba(0,0,0,.9);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    &__modal{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: #FFF;
+        width: 60%;
+        height: 60%;
+        border-radius: 12px;
+        text-align: center;
+        &__header{
+            padding-top: 1rem;
+            h3{
+                font-family: 'Raleway',sans-serif;
+                color: #937B92;
+                display: inline-block;
+            }
+            i{
+                font-size: 2rem;
+                cursor: pointer;
+                color: #937B92;
+                float: right;
+                margin-right: 10px;
+            }
+        }
+        &__form{
+            margin: 0 auto;
+            width: 70%;
+            form{
+                // padding-top: 50px;
+                input{
+                    display: block;
+                    width: 100%;
+                    margin: 50px auto;
+                    border: none;
+                    border-bottom: solid 1px #CCC;
+                    &:focus{
+                        outline: none;
+                        border-bottom-color:#937B92
+                    }
+                }
+                button{
+                    background: #FFF;
+                    padding: 1rem;
+                    border-radius: 12px;
+                    border: solid 1px #9A48D0;
+                    color: #9A48D0;
+                    width: 70%;
+                    font-size: 20px;
+                    transition: all .3s linear;
+                    &:hover{
+                        cursor: pointer;
+                        background: #9A48D0;
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}

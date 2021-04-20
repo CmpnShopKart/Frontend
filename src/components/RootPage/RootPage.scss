@@ -23,6 +23,7 @@
         width: 50%;
         padding: 2rem;
         background: #F7F2F7;
+        text-align: center;
         &__buttons{
             width: 100%;
             display: flex;
@@ -90,6 +91,10 @@
                     }
                 }
             }
+        }
+        a{
+            color:blue;
+            cursor: pointer;
         }
     }
 }
