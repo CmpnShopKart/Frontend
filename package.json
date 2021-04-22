@@ -7,9 +7,13 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "history": "^5.0.0",
+    "leaflet": "^1.7.1",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-geolocated": "^3.1.0",
+    "react-leaflet": "^3.1.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -42,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://localhost:5000/"
+  "proxy": "http://localhost:5000/"
 }

@@ -1,29 +1,33 @@
 import React from 'react';
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import './RootPage.scss';
 import SignUpModal from '../SignUpModal/SignUpModal';
 import {connect} from 'react-redux';
 import fetchUsers from '../../redux/user/user.actions';
+import buyerSignIn from '../../redux/buyer/buyer.actions';
 
-const RootPage = ({fetchUsers,user}) => {
+const RootPage = (props) => {
 
     const [isBuyersSelected,setIsBuyersSelected] = useState(true);
     const [showSignUpModal,setShowSignUpModal] = useState(false);
+    const [email,setEmail] = useState("");
+    const [buyerPassword,setBuyerPassword] = useState("");
 
-    useEffect(() => {
-        const getData = async() => {
-            await fetchUsers();
+
+    const buyerSignInSubmit = async(e) => {
+        e.preventDefault();
+        const formData = {
+            email:email,
+            password:buyerPassword
         }
-        getData();
-    },[fetchUsers]);
-
-    if(user.isLoading){
-        return(
-            <div>
-                <h1>Loading</h1>
-            </div>
-        )
+        const res = await props.buyerSignIn(formData);
+        console.log(res);
+        if(res.isValidCredentials){
+            props.history.push('/buyer/home');
+        }
     }
+
+
     return(
         <div className='root-page-container'>
             <div className='root-page-container__text-container'>
@@ -52,11 +56,32 @@ const RootPage = ({fetchUsers,user}) => {
                     </button>
                 </div>
                 <div className='root-page-container__tabbed-pane-container__form-container'>
-                    <form>
-                        <input type='email' placeholder={`${isBuyersSelected?'Enter Your E-mail':'Enter your phone no.'}`}></input>
-                        <input type='password' placeholder='Enter Your Password'></input>
-                        <button type='submit'>Sign In</button>
-                    </form>
+                    {
+                        (isBuyersSelected)?
+                            <form onSubmit={buyerSignInSubmit}>
+                                <input 
+                                    type='email' 
+                                    placeholder='Enter Your Email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                                <input 
+                                    type='password' 
+                                    placeholder='Enter Your Password'
+                                    value={buyerPassword}
+                                    onChange={(e) => setBuyerPassword(e.target.value)}
+                                    required
+                                />
+                                <button type='submit'>Sign In</button>
+                            </form>
+                        :
+                            <form>
+                                <input type='email' placeholder='Enter your phone no.'></input>
+                                <input type='password' placeholder='Enter Your Password'></input>
+                                <button type='submit'>Sign In</button>
+                            </form>
+                    }
                 </div>
                 <a
                     onClick={(e) => setShowSignUpModal(true)}
@@ -76,11 +101,12 @@ const RootPage = ({fetchUsers,user}) => {
 }
 
 const mapStateToProps = state => ({
-    user:state.user
+    buyer:state.buyer
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUsers : () => dispatch(fetchUsers())
+    fetchUsers : () => dispatch(fetchUsers()),
+    buyerSignIn : (formData) => dispatch(buyerSignIn(formData))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(RootPage);
