@@ -12,6 +12,7 @@ const BuyerHomePage = ({buyer,history,isGeolocationEnabled,isGeolocationAvailabl
         if(!buyer.buyerData.isValidCredentials){
             history.push('/');
         }
+        console.log(coords)
     },[])
     return !isGeolocationAvailable ? (
             <div>Your browser does not support Geolocation</div>
@@ -19,11 +20,13 @@ const BuyerHomePage = ({buyer,history,isGeolocationEnabled,isGeolocationAvailabl
             <div>Geolocation is not enabled</div>
         ) : coords ? (
         <div className='buyer-home-page'>
-            <div className='info-container'>
-                <h1>Welcome buyer</h1>
+            <div className='buyer-home-page__info-container'>
+                <div className='buyer-home-page__info-container__header'>
+                    <i className='bi bi-list'></i>
+                </div>
             </div>
-            <div className='map-container'>
-                <MapContainer center={[coords.latitude,coords.longitude]} zoom={13} scrollWheelZoom={false}>
+            <div className='buyer-home-page__map-container'>
+                <MapContainer center={[coords.latitude,coords.longitude]} zoom={13} scrollWheelZoom={true}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
