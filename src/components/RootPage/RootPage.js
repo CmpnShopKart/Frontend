@@ -2,9 +2,11 @@ import React from 'react';
 import {useState} from 'react';
 import './RootPage.scss';
 import SignUpModal from '../SignUpModal/SignUpModal';
+import RegistrationModal from '../RegistrationModal/RegistrationModal';
 import {connect} from 'react-redux';
 import fetchUsers from '../../redux/user/user.actions';
 import buyerSignIn from '../../redux/buyer/buyer.actions';
+import {sellerSignIn} from '../../redux/seller/seller.actions';
 
 const RootPage = (props) => {
 
@@ -12,7 +14,8 @@ const RootPage = (props) => {
     const [showSignUpModal,setShowSignUpModal] = useState(false);
     const [email,setEmail] = useState("");
     const [buyerPassword,setBuyerPassword] = useState("");
-
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [sellerPassword,setSellerPassword] = useState("");
 
     const buyerSignInSubmit = async(e) => {
         e.preventDefault();
@@ -27,9 +30,25 @@ const RootPage = (props) => {
         }
     }
 
+    const sellerSignInSubmit = async(e) => {
+        e.preventDefault();
+        const formData = {
+            phoneNumber:phoneNumber,
+            password:sellerPassword
+        }
+        const res = await props.sellerSignIn(formData);
+        console.log(res);
+        if(!res.data.isValidCredentials){
+            alert("Please enter valid credentials");
+        }
+    }
+
 
     return(
         <div className='root-page-container'>
+            {(props.seller.sellerData.sellerRegistered===false && props.seller.sellerData.isValidCredentials)?
+                <RegistrationModal/>:null
+            }
             <div className='root-page-container__text-container'>
                 {(isBuyersSelected)?
                     <h1 className='root-page-container__text-container__heading'>
@@ -76,9 +95,21 @@ const RootPage = (props) => {
                                 <button type='submit'>Sign In</button>
                             </form>
                         :
-                            <form>
-                                <input type='email' placeholder='Enter your phone no.'></input>
-                                <input type='password' placeholder='Enter Your Password'></input>
+                            <form onSubmit={sellerSignInSubmit}>
+                                <input 
+                                    type='text' 
+                                    placeholder='Enter your phone no.'
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}    
+                                    required
+                                />
+                                <input 
+                                    type='password' 
+                                    placeholder='Enter Your Password'
+                                    value={sellerPassword}
+                                    onChange={(e) => setSellerPassword(e.target.value)}
+                                    required
+                                />
                                 <button type='submit'>Sign In</button>
                             </form>
                     }
@@ -101,12 +132,14 @@ const RootPage = (props) => {
 }
 
 const mapStateToProps = state => ({
-    buyer:state.buyer
+    buyer:state.buyer,
+    seller:state.seller
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchUsers : () => dispatch(fetchUsers()),
-    buyerSignIn : (formData) => dispatch(buyerSignIn(formData))
+    buyerSignIn : (formData) => dispatch(buyerSignIn(formData)),
+    sellerSignIn : (formData) => dispatch(sellerSignIn(formData))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(RootPage);

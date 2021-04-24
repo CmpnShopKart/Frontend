@@ -1,4 +1,4 @@
-.sign-up-modal-container{
+.registration-modal-container{
     position: fixed;
     z-index: 9999;
     background: rgba(0,0,0,.9);
@@ -16,6 +16,7 @@
         height: 70%;
         border-radius: 12px;
         text-align: center;
+        overflow-y: scroll;
         &__header{
             padding-top: 1rem;
             h3{
@@ -56,6 +57,7 @@
                     width: 70%;
                     font-size: 20px;
                     transition: all .3s linear;
+                    margin-bottom: 1rem;
                     &:hover{
                         cursor: pointer;
                         background: #9A48D0;
