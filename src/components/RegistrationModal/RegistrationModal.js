@@ -3,7 +3,6 @@ import ReactDom from 'react-dom';
 import './RegistrationModal.scss';
 import {connect} from 'react-redux';
 import {useState} from 'react';
-import axios from 'axios';
 import {sellerRegistration} from '../../redux/seller/seller.actions';
 
 const RegistrationModal = (props) => {

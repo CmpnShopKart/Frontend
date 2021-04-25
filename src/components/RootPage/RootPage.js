@@ -37,9 +37,12 @@ const RootPage = (props) => {
             password:sellerPassword
         }
         const res = await props.sellerSignIn(formData);
-        console.log(res);
+        console.log(res.data.isValidCredentials,res.data.sellerRegistered);
         if(!res.data.isValidCredentials){
             alert("Please enter valid credentials");
+        }
+        if(res.data.isValidCredentials && res.data.sellerRegistered){
+            props.history.push('/seller/home');
         }
     }
 
