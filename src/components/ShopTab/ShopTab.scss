@@ -1,0 +1,51 @@
+.shop-tab-container{
+    height: 100%;
+    &__shop-details-card{
+        width: 40%;
+        height: 200px;
+        border-radius: 12px;
+        box-shadow: 1px 2px 2px 2px rgba(0,0,0,.1);
+        margin: 1rem auto;
+        &__header{
+            padding: .5rem;
+            text-align: left;
+            &__title{
+                color: #502050;
+                font-size: 1.5rem;
+            }
+        }
+        &__details{
+            display: flex;
+            justify-content: space-between;
+            &__address{
+                width: 40%;
+                padding: .5rem;
+                h4{
+                    font-size: 1rem;
+                    color: #937B92;
+                }
+            }
+            &__gstNo{
+                width: 40%;
+                padding: .5rem;
+                h4{
+                    font-size: 1rem;
+                    color: #937B92;
+                }
+            }
+            &__footer{
+                padding: .5rem;
+                // display: flex;
+                justify-content: space-between;
+                button{
+                    background: #FFF;
+                    font-family: 'Lato',sans-serif;
+                    padding: 1rem;
+                    border: solid 1px #9A48D0;
+                    color: #9A48D0;
+                    border-radius: 12px;
+                }
+            }
+        }
+    }
+}
