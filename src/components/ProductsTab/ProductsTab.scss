@@ -1,0 +1,25 @@
+.products-tab-container{
+    &__add-product{
+        padding: 2rem;
+        text-align: end;
+        button{
+            background: #FFF;
+            border: solid 1px #EE68A4;
+            color: #EE68A4;
+            outline: none;
+            padding: .5rem 2rem;
+            border-radius: 12px;
+            transition: all .3s linear;
+            &:hover{
+                background: #EE68A4;
+                color: #FFF;
+            }
+        }
+    }
+    &__products{
+        padding: 1rem;
+        &__product-card{
+            margin: 0 auto;
+        }
+    }
+}

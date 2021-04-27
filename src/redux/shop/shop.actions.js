@@ -15,3 +15,16 @@ export const getShopDetails = (sellerId) => {
     }   
 }
 
+
+export const registerShop = (formData) => {
+    return async dispatch => {
+        try{
+            dispatch({type:shopActionTypes.ADDING_SHOP_DETAILS});
+            const res = await axios.post('/shop/register',formData);
+            dispatch({type:shopActionTypes.ADDING_SHOP_DETAILS_SUCCESS,payload:res.data});
+            return res;
+        }catch(err){
+            dispatch({type:shopActionTypes.ADDING_SHOP_DETAILS_FAILURE,payload:err})
+        }
+    }
+}

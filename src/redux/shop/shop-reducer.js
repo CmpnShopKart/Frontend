@@ -3,7 +3,8 @@ import shopActionTypes from './shop.types';
 const INITIAL_STATE = {
     isFetching:null,
     shopData:{},
-    error:null
+    error:null,
+    isAdding:null
 }
 
 const shopReducer = (state = INITIAL_STATE , action) => {
@@ -19,6 +20,18 @@ const shopReducer = (state = INITIAL_STATE , action) => {
         case shopActionTypes.FETCHING_SHOP_DETAILS_FAILURE:
             return {
                 ...state,error:action.payload,isFetching:false
+            }
+        case shopActionTypes.ADDING_SHOP_DETAILS:
+            return {
+                ...state,isAdding:true
+            }
+        case shopActionTypes.ADDING_SHOP_DETAILS_SUCCESS:
+            return {
+                ...state,isAdding:false
+            }
+        case shopActionTypes.ADDING_SHOP_DETAILS_FAILURE:
+            return {
+                ...state,isAdding:false,error:action.payload
             }
         default :
             return {
