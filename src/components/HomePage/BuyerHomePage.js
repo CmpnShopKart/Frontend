@@ -4,25 +4,74 @@ import {connect} from 'react-redux';
 import {useEffect,useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { geolocated } from "react-geolocated";
+import {getNearbyShops,getSelectedShopProducts} from '../../redux/buyer/buyer.actions';
 
-const BuyerHomePage = ({buyer,history,isGeolocationEnabled,isGeolocationAvailable,coords}) => {
+const BuyerHomePage = (
+        {buyer,history,isGeolocationEnabled,isGeolocationAvailable,coords,getNearbyShops,getSelectedShopProducts}
+    ) => {
 
+    const [selectedShopId,setSelectedShopId] = useState("");
+    const [selectedShopName,setSelectedShopName] = useState("");
 
     useEffect(() => {
         if(!buyer.buyerData.isValidCredentials){
             history.push('/');
         }
-        console.log(coords)
-    },[])
+        const getData = async() => {
+            if(isGeolocationAvailable && isGeolocationEnabled && coords){
+                await getNearbyShops({latitude:coords.latitude,longitude:coords.longitude});
+            }
+        }
+        const getProductData = async() => {
+            await getSelectedShopProducts(selectedShopId);
+        } 
+        getData();
+        getProductData();
+    },[isGeolocationEnabled,isGeolocationAvailable,coords,selectedShopId])
+
+    
+
     return !isGeolocationAvailable ? (
             <div>Your browser does not support Geolocation</div>
         ) : !isGeolocationEnabled ? (
             <div>Geolocation is not enabled</div>
-        ) : coords ? (
+        ) : coords && buyer.buyerData.nearbyShops ? (
         <div className='buyer-home-page'>
             <div className='buyer-home-page__info-container'>
                 <div className='buyer-home-page__info-container__header'>
                     <i className='bi bi-list'></i>
+                </div>
+                <div className='buyer-home-page__info-container__headings'>
+                    <h3>{selectedShopName}</h3>
+                </div>
+                <div className='buyer-home-page__info-container__shop-info'>
+                    {(buyer.buyerData.selectedShopProducts.length)?
+                        buyer.buyerData.selectedShopProducts.map(product => {
+                            return(
+                                <div className='buyer-home-page__info-container__shop-info__product-card' key={product._id}>
+                                    <div className='buyer-home-page__info-container__shop-info__product-card__img'>
+                                        <img src={product.product_image}></img>
+                                    </div>
+                                    <div className='buyer-home-page__info-container__shop-info__product-card__details'>
+                                        <h5 className='title'>{product.product_name}</h5>
+                                        <p>{product.product_description}</p>
+                                        <h5 className='price'>{product.product_price}</h5>
+                                        <div className='buyer-home-page__info-container__shop-info__product-card__details__cq'>
+                                            <div                    className='buyer-home-page__info-container__shop-info__product-card__details__cq__c'>
+                                                <h6>Category</h6>
+                                                <p>{product.product_category}</p>
+                                            </div>
+                                            <div                    className='buyer-home-page__info-container__shop-info__product-card__details__cq__q'>
+                                                <h6>Quantity</h6>
+                                                <p>{product.product_quantity}</p>
+                                            </div>
+                                        </div>
+                                        <button><i className='bi bi-cart'/>Add to cart</button>
+                                    </div>
+                                </div>
+                            )
+                        }):null
+                    }
                 </div>
             </div>
             <div className='buyer-home-page__map-container'>
@@ -31,11 +80,26 @@ const BuyerHomePage = ({buyer,history,isGeolocationEnabled,isGeolocationAvailabl
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[coords.latitude,coords.longitude]}>
-                        <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
-                        </Popup>
-                    </Marker>
+                    {
+                        buyer.buyerData.nearbyShops.map(shop => {
+                            return (
+                                <Marker 
+                                    key={shop._id}
+                                    position={[shop.shop_latitude,shop.shop_longitude]}
+                                    eventHandlers={{
+                                        click: () => {
+                                            setSelectedShopId(shop._id);
+                                            setSelectedShopName(shop.shop_name);
+                                        },
+                                    }}
+                                >
+                                    <Popup>
+                                        {shop.shop_name}
+                                    </Popup>
+                                </Marker>
+                            )
+                        })    
+                    }
                 </MapContainer>
             </div>
         </div>
@@ -45,12 +109,16 @@ const BuyerHomePage = ({buyer,history,isGeolocationEnabled,isGeolocationAvailabl
 
 const mapStateToProps = (state) => ({
     buyer:state.buyer
-})
+});
 
+const mapDispatchToProps = (dispatch) => ({
+    getNearbyShops : (formData) => dispatch(getNearbyShops(formData)),
+    getSelectedShopProducts : (shopId) => dispatch(getSelectedShopProducts(shopId))
+});
 
 export default geolocated({
     positionOptions: {
         enableHighAccuracy: false,
     },
     userDecisionTimeout: 5000,
-})(connect(mapStateToProps,null)(BuyerHomePage));
+})(connect(mapStateToProps,mapDispatchToProps)(BuyerHomePage));

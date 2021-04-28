@@ -1,7 +1,7 @@
 import buyerActionTypes from './buyer.types';
 import axios from 'axios';
 
-const buyerSignIn = (formData) => {
+export const buyerSignIn = (formData) => {
     return async(dispatch) => {
         try{
             dispatch({type:buyerActionTypes.BUYER_SIGN_IN})
@@ -14,4 +14,31 @@ const buyerSignIn = (formData) => {
     }
 }
 
-export default buyerSignIn;
+
+export const getNearbyShops = (formData) => {
+    console.log(formData)
+    return async dispatch => {
+        try{
+            dispatch({type:buyerActionTypes.FETCHING_NEARBY_SHOPS});
+            const res = await axios.get(`/user/getshops/${formData.latitude}/${formData.longitude}`);
+            dispatch({type:buyerActionTypes.FETCHING_NEARBY_SHOPS_SUCCESS,payload:res.data});
+            return res;            
+        }catch(err){
+            dispatch({type:buyerActionTypes.FETCHING_NEARBY_SHOPS_FAILURE,payload:err})
+        }
+    }
+}
+
+
+export const getSelectedShopProducts = (shopId) => {
+    return async dispatch => {
+        try{
+            dispatch({type:buyerActionTypes.FETCHING_PRODUCTS_DETAILS});
+            const res = await axios.get(`/shop/products/${shopId}`);
+            dispatch({type:buyerActionTypes.FETCHING_PRODUCTS_DETAILS_SUCCESS,payload:res.data});
+            return res;
+        }catch(err){
+            dispatch({type:buyerActionTypes.FETCHING_PRODUCTS_DETAILS_FAILURE,payload:err});
+        }
+    }
+}

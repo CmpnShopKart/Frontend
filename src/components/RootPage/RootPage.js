@@ -5,7 +5,7 @@ import SignUpModal from '../SignUpModal/SignUpModal';
 import RegistrationModal from '../RegistrationModal/RegistrationModal';
 import {connect} from 'react-redux';
 import fetchUsers from '../../redux/user/user.actions';
-import buyerSignIn from '../../redux/buyer/buyer.actions';
+import {buyerSignIn} from '../../redux/buyer/buyer.actions';
 import {sellerSignIn} from '../../redux/seller/seller.actions';
 
 const RootPage = (props) => {
