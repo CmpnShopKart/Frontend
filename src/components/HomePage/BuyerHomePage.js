@@ -5,6 +5,8 @@ import {useEffect,useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { geolocated } from "react-geolocated";
 import {getNearbyShops,getSelectedShopProducts} from '../../redux/buyer/buyer.actions';
+import NavMenu from '../NavMenu/NavMenu';
+
 
 const BuyerHomePage = (
         {buyer,history,isGeolocationEnabled,isGeolocationAvailable,coords,getNearbyShops,getSelectedShopProducts}
@@ -12,7 +14,8 @@ const BuyerHomePage = (
 
     const [selectedShopId,setSelectedShopId] = useState("");
     const [selectedShopName,setSelectedShopName] = useState("");
-
+    const [isNavClicked,setIsNavClicked] = useState(false);
+    
     useEffect(() => {
         if(!buyer.buyerData.isValidCredentials){
             history.push('/');
@@ -39,8 +42,11 @@ const BuyerHomePage = (
         <div className='buyer-home-page'>
             <div className='buyer-home-page__info-container'>
                 <div className='buyer-home-page__info-container__header'>
-                    <i className='bi bi-list'></i>
+                    <i className={`${isNavClicked?'bi bi-x':'bi bi-list'}`} onClick={() => setIsNavClicked(!isNavClicked)}></i>
                 </div>
+                {
+                    (isNavClicked)?<NavMenu history={history}/>:null
+                }
                 <div className='buyer-home-page__info-container__headings'>
                     <h3>{selectedShopName}</h3>
                 </div>
@@ -66,7 +72,9 @@ const BuyerHomePage = (
                                                 <p>{product.product_quantity}</p>
                                             </div>
                                         </div>
-                                        <button><i className='bi bi-cart'/>Add to cart</button>
+                                        <button>
+                                            <i className='bi bi-cart'/>Add to cart                                            
+                                        </button>
                                     </div>
                                 </div>
                             )
