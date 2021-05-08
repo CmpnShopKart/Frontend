@@ -42,3 +42,16 @@ export const getSelectedShopProducts = (shopId) => {
         }
     }
 }
+
+export const addToCart = (product) => {
+    return (dispatch) => {
+        dispatch({type:buyerActionTypes.ADD_TO_CART,payload:product})
+    }
+}
+
+
+export const removeFromCart = (productId) => {
+    return dispatch => {
+        dispatch({type:buyerActionTypes.REMOVE_FROM_CART,payload:productId})
+    }
+}

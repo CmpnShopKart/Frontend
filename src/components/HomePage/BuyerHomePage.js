@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {useEffect,useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { geolocated } from "react-geolocated";
-import {getNearbyShops,getSelectedShopProducts} from '../../redux/buyer/buyer.actions';
+import {addToCart, getNearbyShops,getSelectedShopProducts} from '../../redux/buyer/buyer.actions';
 import NavMenu from '../NavMenu/NavMenu';
 
 
 const BuyerHomePage = (
-        {buyer,history,isGeolocationEnabled,isGeolocationAvailable,coords,getNearbyShops,getSelectedShopProducts}
+        {buyer,history,isGeolocationEnabled,isGeolocationAvailable,coords,getNearbyShops,getSelectedShopProducts,addToCart}
     ) => {
 
     const [selectedShopId,setSelectedShopId] = useState("");
@@ -32,6 +32,10 @@ const BuyerHomePage = (
         getProductData();
     },[isGeolocationEnabled,isGeolocationAvailable,coords,selectedShopId])
 
+
+    const handleAddToCart = (product) => {
+        addToCart(product);
+    }
     
 
     return !isGeolocationAvailable ? (
@@ -72,7 +76,7 @@ const BuyerHomePage = (
                                                 <p>{product.product_quantity}</p>
                                             </div>
                                         </div>
-                                        <button>
+                                        <button onClick={() => handleAddToCart(product)}>
                                             <i className='bi bi-cart'/>Add to cart                                            
                                         </button>
                                     </div>
@@ -121,7 +125,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getNearbyShops : (formData) => dispatch(getNearbyShops(formData)),
-    getSelectedShopProducts : (shopId) => dispatch(getSelectedShopProducts(shopId))
+    getSelectedShopProducts : (shopId) => dispatch(getSelectedShopProducts(shopId)),
+    addToCart : (product) => dispatch(addToCart(product))
 });
 
 export default geolocated({

@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     isSigningIn:null,
     error:null,
     buyerData:{},
-    isFetching:null
+    isFetching:null,
+    cartItems:[]
 }
 
 const buyerReducer = (state = INITIAL_STATE , action) => {
@@ -44,6 +45,15 @@ const buyerReducer = (state = INITIAL_STATE , action) => {
         case buyerActionTypes.FETCHING_PRODUCTS_DETAILS_FAILURE:
             return {
                 ...state,isFetching:false,error:action.payload
+            }
+        case buyerActionTypes.ADD_TO_CART:
+            return {
+                ...state,cartItems:[...state.cartItems,action.payload]
+            }
+        case buyerActionTypes.REMOVE_FROM_CART:
+            const updatedCartItems = state.cartItems.filter((product) => product._id !== action.payload);
+            return {
+                ...state,cartItems:[...updatedCartItems]
             }
         default:
             return{...state}

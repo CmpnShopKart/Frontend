@@ -1,0 +1,78 @@
+.buyer-cart-page-container{
+    &__header{
+        background: #9A48D0;
+        width: 100%;
+        height: 50px;
+        &__list{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0;
+            width: 50%;
+            margin-left: 50%;
+            &__item{
+                line-height: 50px;
+                color: #FFF;
+                cursor: pointer;
+            }
+            &__item.active{
+                color: #FC3;
+            }
+        }
+    }
+    &__items{
+        &__product-card{
+            width: 600px;
+            margin: 2rem auto; 
+            display: flex;
+            border-radius: 12px;
+            box-shadow: 0px 1px 4px 2px rgba(0,0,0,.3);
+            &__img{
+                width: 40%;
+                img{
+                    border-top-left-radius: 12px;
+                    border-bottom-left-radius: 12px;
+                    width: 100%;    
+                    height: 100%;
+                }
+            }
+            &__details{
+                padding: 1rem;
+                width: 60%;
+                h5.title{
+                    color: #9A48D0;
+                }
+                h5.price::before{
+                    content: 'Rs.';
+                }
+                h5.price{
+                    color: #111;
+                }
+                &__cq{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    &__c,&__q{
+                        h6,i{
+                            color: #937B92;
+                        }
+                    }
+                }
+                button{
+                    background: #FFF;
+                    border: solid 1px #9A48D0;
+                    color: #9A48D0;
+                    outline: none;
+                    padding: .5rem 2rem;
+                    border-radius: 12px;
+                    transition: all .3s linear;
+                    &:hover{
+                        background: #9A48D0;
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}
