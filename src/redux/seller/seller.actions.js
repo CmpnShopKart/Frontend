@@ -1,5 +1,6 @@
 import sellerActionTypes from './seller.types';
 import axios from 'axios';
+import buyerActionTypes from '../buyer/buyer.types';
 
 export const sellerSignIn = (formData) => {
     return async(dispatch) => {
@@ -23,6 +24,20 @@ export const sellerRegistration = (formData) => {
             return res;
         }catch(err){
             dispatch({type:sellerActionTypes.SELLER_REGISTRATION_FAILURE,payload:err});
+        }
+    }
+}
+
+
+export const getSellerOrders = (sellerId) => {
+    return async dispatch => {
+        try{
+            dispatch({type:sellerActionTypes.FETCHING_SELLER_ORDERS});
+            const res = await axios.get(`/seller/getOrders/${sellerId}`);
+            dispatch({type:sellerActionTypes.FETCHING_SELLER_ORDERS_SUCCESS,payload:res.data});
+            return res;
+        }catch(err){
+            dispatch({type:sellerActionTypes.FETCHING_SELLER_ORDERS_FAILURE,payload:err});
         }
     }
 }

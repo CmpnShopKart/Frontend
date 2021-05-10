@@ -22,8 +22,14 @@
         }
     }
     &__items{
+        h3{
+            color: #502050;
+            text-align: center;
+            margin-top: 2rem;
+        }
         &__product-card{
             width: 600px;
+            height: 220px;
             margin: 2rem auto; 
             display: flex;
             border-radius: 12px;
@@ -73,6 +79,15 @@
                     }
                 }
             }
+        }
+    }
+    &__panel{
+        width: 600px;
+        display: flex;
+        margin: 3rem auto;
+        &__total{
+            color: #502050;
+            width: 50%;
         }
     }
 }

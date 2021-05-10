@@ -35,6 +35,7 @@ const BuyerHomePage = (
 
     const handleAddToCart = (product) => {
         addToCart(product);
+        alert("Product added to cart!");
     }
     
 

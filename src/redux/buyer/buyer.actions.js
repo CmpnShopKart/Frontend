@@ -55,3 +55,26 @@ export const removeFromCart = (productId) => {
         dispatch({type:buyerActionTypes.REMOVE_FROM_CART,payload:productId})
     }
 }
+
+
+export const clearCart = () => {
+    return dispatch => {
+        dispatch({type:buyerActionTypes.CLEAR_CART})
+    }
+}
+
+
+export const getUserOrders = (userId) => {
+    return async dispatch => {
+        try{
+            dispatch({type:buyerActionTypes.FETCHING_BUYER_ORDERS});
+            const res = await axios.get(`/user/getOrders/${userId}`);
+            console.log(res);
+            dispatch({type:buyerActionTypes.FETCHING_BUYER_ORDERS_SUCCESS,payload:res.data});
+            return res;
+        }
+        catch(err){
+            dispatch({type:buyerActionTypes.FETCHING_BUYER_ORDERS_FAILURE,payload:err});
+        }
+    }
+} 

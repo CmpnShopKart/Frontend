@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     error:null,
     buyerData:{},
     isFetching:null,
-    cartItems:[]
+    cartItems:[],
+    orders:[]
 }
 
 const buyerReducer = (state = INITIAL_STATE , action) => {
@@ -54,6 +55,22 @@ const buyerReducer = (state = INITIAL_STATE , action) => {
             const updatedCartItems = state.cartItems.filter((product) => product._id !== action.payload);
             return {
                 ...state,cartItems:[...updatedCartItems]
+            }
+        case buyerActionTypes.CLEAR_CART:
+            return {
+                ...state,cartItems:[]
+            }
+        case buyerActionTypes.FETCHING_BUYER_ORDERS:
+            return {
+                ...state,isFetching:true
+            }
+        case buyerActionTypes.FETCHING_BUYER_ORDERS_SUCCESS:
+            return {
+                ...state,isFetching:false,orders:[...action.payload]
+            }
+        case buyerActionTypes.FETCHING_BUYER_ORDERS_FAILURE:
+            return {
+                ...state,error:action.payload
             }
         default:
             return{...state}
