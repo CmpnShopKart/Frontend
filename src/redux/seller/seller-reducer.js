@@ -6,7 +6,8 @@ const INITIAL_STATE = {
     sellerData:{},
     isRegistering:null,
     orders:[],
-    isFetching:false
+    isFetching:false,
+    isUpdatingStatus:false
 }
 
 const sellerReducer = (state = INITIAL_STATE , action) => {
@@ -46,6 +47,18 @@ const sellerReducer = (state = INITIAL_STATE , action) => {
         case sellerActionTypes.FETCHING_SELLER_ORDERS_FAILURE:
             return {
                 ...state,isFetching:false,error:action.payload
+            }
+        case sellerActionTypes.UPDATING_ORDER_STATUS:
+            return {
+                ...state,isUpdatingStatus:true
+            }
+        case sellerActionTypes.UPDATING_ORDER_STATUS_SUCCESS:
+            return {
+                ...state,isUpdatingStatus:false
+            }
+        case sellerActionTypes.UPDATING_ORDER_STATUS_FAILURE:
+            return {
+                ...state,isUpdatingStatus:false,error:action.payload
             }
         default:
             return{...state}

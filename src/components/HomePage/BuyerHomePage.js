@@ -34,6 +34,10 @@ const BuyerHomePage = (
 
 
     const handleAddToCart = (product) => {
+        if(product.product_quantity===0){
+            alert("Product out of stock!");
+            return;
+        }
         addToCart(product);
         alert("Product added to cart!");
     }
@@ -74,7 +78,7 @@ const BuyerHomePage = (
                                             </div>
                                             <div                    className='buyer-home-page__info-container__shop-info__product-card__details__cq__q'>
                                                 <h6>Quantity</h6>
-                                                <p>{product.product_quantity}</p>
+                                                <p>{(product.product_quantity===0)?<p style={{color:'red'}}>Out of stock</p>:product.product_quantity}</p>
                                             </div>
                                         </div>
                                         <button onClick={() => handleAddToCart(product)}>

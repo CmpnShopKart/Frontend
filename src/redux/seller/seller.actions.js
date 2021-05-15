@@ -41,3 +41,17 @@ export const getSellerOrders = (sellerId) => {
         }
     }
 }
+
+
+export const updateOrderStatus = (formData) => {
+    return async dispatch => {
+        try{
+            dispatch({type:sellerActionTypes.UPDATING_ORDER_STATUS});
+            const res = await axios.patch('/seller/order/updateStatus',formData);
+            dispatch({type:sellerActionTypes.UPDATING_ORDER_STATUS_SUCCESS,payload:res.data});
+            return res;
+        }catch(err){
+            dispatch({type:sellerActionTypes.UPDATING_ORDER_STATUS_FAILURE,payload:err});
+        }
+    }
+}

@@ -32,12 +32,24 @@ const ProductsTab = (props) => {
                     :
                     props.products.productsData.map(product => (
                         <div className='products-tab-container__products__product-card'>
-                            <img src={product.product_image} width={100} height={100}></img>
-                            <h3>{product.product_name}</h3>
-                            <h3>{product.product_price}</h3>
-                            <h3>{product.product_category}</h3>
-                            <h3>{product.product_description}</h3>
-                            <h3>{product.product_quantity}</h3>
+                            <div className='products-tab-container__products__product-card__img'>
+                                <img src={product.product_image}></img>
+                            </div>
+                            <div className='products-tab-container__products__product-card__details'>
+                                <h5 className='title'>{product.product_name}</h5>
+                                <p>{product.product_description}</p>
+                                <h5 className='price'>{product.product_price}</h5>
+                                <div className='products-tab-container__products__product-card__details__cq'>
+                                    <div                    className='products-tab-container__products__product-card__details__cq__c'>
+                                        <h6>Category</h6>
+                                        <p>{product.product_category}</p>
+                                    </div>
+                                    <div                    className='products-tab-container__products__product-card__details__cq__q'>
+                                        <h6>Quantity</h6>
+                                        <p>{product.product_quantity}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )) 
                 }
