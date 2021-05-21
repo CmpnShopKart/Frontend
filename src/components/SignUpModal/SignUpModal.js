@@ -24,7 +24,8 @@ const SignUpModal = ({isBuyersSelected,closeModal}) => {
         const formData = {
             userName:userName,
             password:buyerPassword,
-            email:email
+            email:email,
+            shippingAddress:buyerShippingAddress
         }
         axios.post('user/signup',formData)
             .then(res => {
@@ -34,11 +35,14 @@ const SignUpModal = ({isBuyersSelected,closeModal}) => {
             })
             .catch(err => console.log(err));
     }
+
     const [phoneNumber,setPhoneNumber] = useState("");
     const [sellerPassword,setSellerPassword] = useState("");
     const [userName,setUserName] = useState("");
     const [email,setEmail] = useState("");
     const [buyerPassword,setBuyerPassword] = useState("");
+    const [buyerShippingAddress,setBuyerShippingAddress] = useState("");
+
     return ReactDom.createPortal(
         <div className='sign-up-modal-container'>
             <div className='sign-up-modal-container__modal'>
@@ -66,6 +70,12 @@ const SignUpModal = ({isBuyersSelected,closeModal}) => {
                                 placeholder='Enter a password'
                                 value={buyerPassword}
                                 onChange={(e) => setBuyerPassword(e.target.value)}
+                            />
+                            <input 
+                                type='text' 
+                                placeholder='Enter shipping address'
+                                value={buyerShippingAddress}
+                                onChange={(e) => setBuyerShippingAddress(e.target.value)}
                             />
                             <button type="submit">Sign Up</button>
                         </form>
